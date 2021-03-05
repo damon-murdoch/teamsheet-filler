@@ -327,11 +327,7 @@ $(document).ready(function(){
         // Iterate over pokemon in the team
         for(set of team)
         {
-            // 
-            for(lines of set)
-            {
-
-            }
+            
         }
     }
 });
