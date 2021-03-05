@@ -15,6 +15,11 @@ $(document).ready(function(){
     // Filter the email headers
     let href = window.location.href;
 
+    // Save the team list to the document
+    // By default, this will be null unless
+    // a paste is provided
+    document.teamlist = null;
+
     // If there are any arguments in the path
     if (href.includes('?'))
     {
@@ -170,13 +175,13 @@ $(document).ready(function(){
                             if ('dob' in localStorage)
                             {
                                 // Dereference the first name element from the local storage
-                                document.getElementById('date-of-birth').innerHTML = localStorage['dob'].padEnd(20,'_');
+                                document.getElementById('date-of-birth').innerHTML = localStorage['dob'].padEnd(20,'_').replace('+',' ');
 
                             } // No first name cookies
                             else 
                             {
                                 // Modify the last name page element
-                                document.getElementById('date-of-birth').innerHTML = ''.padEnd(20,'_');
+                                document.getElementById('date-of-birth').innerHTML = ''.padEnd(20,'_').replace('+',' ');
                             }
                         }
 
@@ -197,7 +202,7 @@ $(document).ready(function(){
                         else
                         {
                             // Modify the event date page element
-                            document.getElementById('event-dates').innerHTML = ''.padEnd(20,'_');
+                            document.getElementById('event-dates').innerHTML = ''.padEnd(20,'_').replace('+',' ');
                         }
                         
                     break;
@@ -217,7 +222,7 @@ $(document).ready(function(){
                         else
                         {
                             // Modify the last name page element
-                            document.getElementById('event-name').innerHTML = ''.padEnd(20,'_');
+                            document.getElementById('event-name').innerHTML = ''.padEnd(20,'_').replace('+',' ');
                         }
 
                     break;
@@ -240,13 +245,13 @@ $(document).ready(function(){
                             if ('swprofile' in localStorage)
                             {
                                 // Dereference the first name element from the local storage
-                                document.getElementById('switch-profile').innerHTML = localStorage['swprofile'].padEnd(20,'_');
+                                document.getElementById('switch-profile').innerHTML = localStorage['swprofile'].padEnd(20,'_').replace('+',' ');
 
                             } // No first name cookies
                             else 
                             {
                                 // Modify the last name page element
-                                document.getElementById('switch-profile').innerHTML = ''.padEnd(20,'_');
+                                document.getElementById('switch-profile').innerHTML = ''.padEnd(20,'_').replace('+',' ');
                             }
                         }
 
@@ -270,17 +275,62 @@ $(document).ready(function(){
                             if ('teamname' in localStorage)
                             {
                                 // Dereference the first name element from the local storage
-                                document.getElementById('battle-team-name').innerHTML = localStorage['teamname'].padEnd(20,'_');
+                                document.getElementById('battle-team-name').innerHTML = localStorage['teamname'].padEnd(20,'_').replace('+',' ');
 
                             } // No first name cookies
                             else 
                             {
                                 // Modify the last name page element
-                                document.getElementById('battle-team-name').innerHTML = ''.padEnd(20,'_');
+                                document.getElementById('battle-team-name').innerHTML = ''.padEnd(20,'_').replace('+',' ');
                             }
                         }
                     break;
+
+                    // Team List
+                    case 'teamlist':
+
+                        // If the value is not blank
+                        if(v)
+                        {
+                            // Set the paste variable to the team list
+                            document.teamlist = v;
+                        }
+                        // Otherwise, paste variable is left null
+
+                    break;
                 }
+            }
+        }
+    }
+
+    // If a team list 
+    // has been provided
+    if (document.teamlist)
+    {
+        // Parse the team list
+        
+        // Convert special characters to their respective actual characters
+        document.teamlist = document.teamlist.replaceAll('+',' ');
+        document.teamlist = document.teamlist.replaceAll('%40','@');
+        document.teamlist = document.teamlist.replaceAll('%0D','\r');
+        document.teamlist = document.teamlist.replaceAll('%0A','\n');
+        document.teamlist = document.teamlist.replaceAll('%0A','\n');
+        document.teamlist = document.teamlist.replaceAll('%2F','/');
+        document.teamlist = document.teamlist.replaceAll('%3A',':');
+
+        // Trim leading and trailing whitespace
+        document.teamlist = document.teamlist.trim();
+
+        // Split the team into individual sets
+        let team = document.teamlist.split("\r\n\r\n");
+
+        // Iterate over pokemon in the team
+        for(set of team)
+        {
+            // 
+            for(lines of set)
+            {
+
             }
         }
     }

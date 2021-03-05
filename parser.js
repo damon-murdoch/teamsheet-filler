@@ -57,16 +57,35 @@ class Pokemon {
 
     constructor()
     {
+        // Nickname - String
         this.nickname = null;
+        
+        // Species - String
         this.species = null;
+        
+        // Gender - String (M/F)
         this.gender = null;
+        
+        // Item - String
         this.item = null;
+        
+        // Ability - String
         this.ability = null;
-        this.shiny = null;
-        this.ball = null;
+
+        // Params - Other, non-specific arguments
+        // e.g. Ball: (Ball), Shiny: (Yes/No)
+        this.params = {};
+        
+        // IVs - Stats object
         this.ivs = new Stats();
+        
+        // EVs - Stats object
         this.evs = new Stats();
+        
+        // Nature - String
         this.nature = null;
+        
+        // Moves - String[], should contain 4
         this.moves = [];
     }
 
@@ -111,18 +130,11 @@ class Pokemon {
             str += "Ability: " + this.ability + "\n";
         }
 
-        // If the shiny condition is specified
-        if (this.shiny)
+        // Iterate over the additional params
+        for(let param in this.params)
         {
-            // Add the ability to the string
-            str += "Shiny: " + this.shiny + "\n";
-        }
-
-        // If the ball condition is specified
-        if (this.ball)
-        {
-            // Add the ability to the string
-            str += "Ball: " + this.ball + "\n";
+            // Write each additional param to the string
+            str += param + ": " + this.params[param] + "\n";
         }
 
         // If the ivs condition is specified
@@ -153,10 +165,172 @@ class Pokemon {
             str += "- " + move + "\n";
         }
     }
-}
 
-// Parser Function
-function parse(string)
-{
-    
+    parse(set)
+    {
+        // Remove the \r characters from the string
+        set = set.replace('\r','');
+
+        // Split the set on the newlines
+        let lines = set.split('\n');
+
+        // Iterate over the lines
+        for (let line of lines)
+        {
+            // If line includes either an '@' symbol or
+            // a '(' symbol (no need to check for ')')
+            if (line.includes('@') || line.includes('('))
+            {
+                // If the line shows male gender
+                if (line.includes('(M)'))
+                {
+                    // Set the pokemon's gender to M
+                    this.gender = 'M';
+
+                    // Remove the gender from the string
+                    line = line.replace('(M)','');
+                }
+                // If the line shows a female gender
+                else if (line.includes('(F)'))
+                {
+                    // Set the pokemon's gender to F
+                    this.gender = 'F';
+
+                    // Remove the gender from the string
+                    line = line.replace('(F)','');
+                }
+
+                // Define empty string
+                let namesection = '';
+
+                // If it contains the '@' symbol
+                if (line.includes('@'))
+                {
+                    // Split the line on the '@'
+                    let spl = line.split('@');
+
+                    // Item specified, namesection is first split
+                    namesection = spl[0].strip();
+
+                    // Item is second split, remove the leading/trailing space
+                    this.item = spl[1].strip();
+                }
+                else
+                {
+                    // No item, no need to split
+                    namesection = spl;
+                }
+
+                // Handle the namesection
+
+                // If there is a nickname 
+                // in the string
+                if (line.includes('('))
+                {
+                    // Nickname (Species)
+
+                    // Remove the open and closing bracket from the string
+                    this.line = line.replace('(','').replace(')','');
+
+                    // Split the string on the spaces
+                    // Remove extra leading and trailing spaces
+                    let _spl = line.strip().split(' ');
+
+                    // Assign the pokemon species
+                    this.species = _spl[1].strip();
+
+                    // Assign the pokemon nickname
+                    this.nickname = _spl[0].strip();
+                }
+                else
+                {
+                    // Species
+                    this.species = line.strip();
+                }
+            }
+            
+            /*
+            // Ability: [Ability]
+            if (line.startsWith('Ability:'))
+            {
+                // Remove the ability indicator, then remove
+                // the leading and trailing spaces
+                this.ability = line.replace('Ability:','').strip();
+            }
+            // EVs: [EVs]
+            if (line.startsWith('EVs:'))
+            {
+                // Remove the EVs indicator, then remove the 
+                // leading and trailing spaces and parse it
+                // into the EVs object
+                this.evs.parse(line.replace('EVs:','').strip());
+            }
+            // IVs: [IVs]
+            if (line.startsWith('IVs:'))
+            {
+                // Remove the IVs indicator, then remove the 
+                // leading and trailing spaces and parse it
+                // into the IVs object
+                this.ivs.parse(line.replace('IVs:','').strip());
+            }
+            */
+
+            // If the line includes a ':' character
+            // It is a pre-defined or otherwise parameter
+            if (line.includes(':'))
+            {
+                // Split the line on the ':' character
+                let _spl = line.split(':');
+
+                // Key is the first section, with
+                // leading/trailing space removed
+                let k = _spl[0].strip();
+
+                // Value is the last section, with
+                // leading/trailing space removed
+                let v = _spl[1].strip();
+
+                // Switch on the key value
+                switch(k)
+                {
+                    case 'Ability':
+                        // Assign the abilit
+                        this.ability = v;
+                    break;
+                    case 'EVs':
+                        // Parse the EVs into the EVs
+                        this.evs.parse(v);
+                    break;
+
+                    // IVs specifier
+                    case 'IVs':
+                        // Parse the IVs into the IVs 
+                        this.ivs.parse(v);
+                    break;
+                    default:
+                        // Insert custom/misc param into params
+                        this.params[k] = v;
+                    break;
+                }
+            }
+
+            // Strip the leading/trailing space, and see 
+            // if the string ends with 'nature'
+            if (line.strip().endsWith('nature'))
+            {
+                // Remove the nature indicator, then remove
+                // the leading and trailing spaces
+                this.nature = line.replace('nature','').strip();
+            }
+            // If the line starts with a '-', 
+            // meaning it is a move identifier
+            if (line.strip().startsWith('-'))
+            {
+                // Add the move to the moves list, after removing
+                // the move identifier and removes leading and trailing
+                // space
+                this.moves.append(line.replace('-','').strip());
+            }
+        }
+    }
 }
