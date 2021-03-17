@@ -27,28 +27,71 @@ class Stats {
     toString()
     {
         // List which will be merged to create the string
-        list = []
+        let list = []
 
         // If there is a hp stat, append the hp stat to the list
-        if (this.hp) { list.append(this.hp + " HP"); }
+        if (this.hp) { list.push(this.hp + " HP"); }
 
         // If there is a hp stat, append the hp stat to the list
-        if (this.atk) { list.append(this.atk + " Atk"); }
+        if (this.atk) { list.push(this.atk + " Atk"); }
 
         // If there is a hp stat, append the hp stat to the list
-        if (this.def) { list.append(this.def + " Def"); }
+        if (this.def) { list.push(this.def + " Def"); }
 
         // If there is a hp stat, append the hp stat to the list
-        if (this.spa) { list.append(this.spa + " SpA"); }
+        if (this.spa) { list.push(this.spa + " SpA"); }
 
         // If there is a hp stat, append the hp stat to the list
-        if (this.spd) { list.append(this.spd + " SpD"); }
+        if (this.spd) { list.push(this.spd + " SpD"); }
 
         // If there is a hp stat, append the hp stat to the list
-        if (this.spe) { list.append(this.spe + " Spe"); }
+        if (this.spe) { list.push(this.spe + " Spe"); }
 
         // Join the list using the '/' character to separate stats
-        return list.join('/');
+        return list.join(' / ');
+    }
+
+    parse(str)
+    {
+        // Split the string on the slashes
+        let split = str.split('/');
+
+        // Iterate over the splits
+        for(spl of split)
+        {
+            // Remove leading / trailing space
+            let row = spl.trim();
+
+            // If the row includes a space
+            if(row.includes(' '))
+            {
+                // Split the k/v on the space
+                let col = row.split(' ');
+
+                // Switch on the stat in question
+                switch(col[1].trim().toLowerCase())
+                {
+                    case 'hp': 
+                        this.hp = parseInt(col[0].trim());
+                    break;
+                    case 'atk': 
+                        this.atk = parseInt(col[0].trim());
+                    break;
+                    case 'def': 
+                        this.def = parseInt(col[0].trim());
+                    break;
+                    case 'spa': 
+                        this.spa = parseInt(col[0].trim());
+                    break;
+                    case 'spd': 
+                        this.spd = parseInt(col[0].trim());
+                    break;
+                    case 'spe': 
+                        this.spe = parseInt(col[0].trim());
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -210,10 +253,10 @@ class Pokemon {
                     let spl = line.split('@');
 
                     // Item specified, namesection is first split
-                    namesection = spl[0].strip();
+                    namesection = spl[0].trim();
 
                     // Item is second split, remove the leading/trailing space
-                    this.item = spl[1].strip();
+                    this.item = spl[1].trim();
                 }
                 else
                 {
@@ -234,46 +277,20 @@ class Pokemon {
 
                     // Split the string on the spaces
                     // Remove extra leading and trailing spaces
-                    let _spl = line.strip().split(' ');
+                    let _spl = line.trim().split(' ');
 
                     // Assign the pokemon species
-                    this.species = _spl[1].strip();
+                    this.species = _spl[1].trim();
 
                     // Assign the pokemon nickname
-                    this.nickname = _spl[0].strip();
+                    this.nickname = _spl[0].trim();
                 }
                 else
                 {
                     // Species
-                    this.species = line.strip();
+                    this.species = namesection.trim();
                 }
             }
-            
-            /*
-            // Ability: [Ability]
-            if (line.startsWith('Ability:'))
-            {
-                // Remove the ability indicator, then remove
-                // the leading and trailing spaces
-                this.ability = line.replace('Ability:','').strip();
-            }
-            // EVs: [EVs]
-            if (line.startsWith('EVs:'))
-            {
-                // Remove the EVs indicator, then remove the 
-                // leading and trailing spaces and parse it
-                // into the EVs object
-                this.evs.parse(line.replace('EVs:','').strip());
-            }
-            // IVs: [IVs]
-            if (line.startsWith('IVs:'))
-            {
-                // Remove the IVs indicator, then remove the 
-                // leading and trailing spaces and parse it
-                // into the IVs object
-                this.ivs.parse(line.replace('IVs:','').strip());
-            }
-            */
 
             // If the line includes a ':' character
             // It is a pre-defined or otherwise parameter
@@ -284,11 +301,11 @@ class Pokemon {
 
                 // Key is the first section, with
                 // leading/trailing space removed
-                let k = _spl[0].strip();
+                let k = _spl[0].trim();
 
                 // Value is the last section, with
                 // leading/trailing space removed
-                let v = _spl[1].strip();
+                let v = _spl[1].trim();
 
                 // Switch on the key value
                 switch(k)
@@ -316,20 +333,20 @@ class Pokemon {
 
             // Strip the leading/trailing space, and see 
             // if the string ends with 'nature'
-            if (line.strip().endsWith('nature'))
+            if (line.trim().toLowerCase().endsWith('nature'))
             {
                 // Remove the nature indicator, then remove
                 // the leading and trailing spaces
-                this.nature = line.replace('nature','').strip();
+                this.nature = line.toLowerCase().replace('nature','').trim();
             }
             // If the line starts with a '-', 
             // meaning it is a move identifier
-            if (line.strip().startsWith('-'))
+            if (line.trim().startsWith('-'))
             {
                 // Add the move to the moves list, after removing
                 // the move identifier and removes leading and trailing
                 // space
-                this.moves.append(line.replace('-','').strip());
+                this.moves.push(line.replace('-','').trim());
             }
         }
     }

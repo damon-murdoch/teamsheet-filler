@@ -324,10 +324,89 @@ $(document).ready(function(){
         // Split the team into individual sets
         let team = document.teamlist.split("\r\n\r\n");
 
+        // Track the pokemon we are currently working on
+        let i=1;
+
         // Iterate over pokemon in the team
         for(set of team)
         {
-            
+            // Create a new pokemon object
+            let pokemon = new Pokemon();
+
+            // Parse the pokemon object into the string
+            pokemon.parse(set);
+
+            // If the pokemon species includes '-gmax'
+            if (pokemon.species.includes('-Gmax'))
+            {
+                // Set the gmax value in the teamsheet to yes
+                document.getElementById('gmax' + i).innerHTML = 'Yes';
+
+                // Remove the gmax tag from the pokemon species title
+                pokemon.species = pokemon.species.toLowerCase().replace('-gmax','');
+            }
+            else 
+            {
+                // Set the gmax value in the teamsheet to no
+                document.getElementById('gmax' + i).innerHTML = 'No';
+            }
+
+            // Add the species to the element on the page
+            document.getElementById('species' + i).innerHTML = pokemon.species;
+
+            // Add the level to the element on the page
+            let level = 100;
+
+            // If the level is specified in the species
+            if ('Level' in pokemon.params)
+            {
+                // Update the level with the specified level
+                level = pokemon.params.Level;
+            }
+
+            // Set the level on the page
+            document.getElementById('level' + i).innerHTML = level;
+
+            // If the ability is specified
+            if ('ability' in pokemon)
+            {
+                // Add the ability to the element on the page
+                document.getElementById('ability' + i).innerHTML = pokemon.ability;
+            }
+
+            // If the ability is specified
+            if ('item' in pokemon)
+            {
+                // Add the ability to the element on the page
+                document.getElementById('item' + i).innerHTML = pokemon.item;
+            }
+
+            // If the moves are specified
+            if ('moves' in pokemon)
+            {
+                let j=1;
+
+                // Iterate over moves
+                for(let move in pokemon.moves)
+                {
+                    //  Add the move to the form
+                    document.getElementById('move' + j + i).innerHTML = pokemon.moves[move];
+
+                    // Increment the current move
+                    j++;
+                }
+            }
+
+            // Calculate the stats of the pokemon, using 
+            // ivs, evs, nature, level required
+            if ('evs' in pokemon && 'ivs' in pokemon && 'nature' in pokemon && pokemon.nature in natures)
+            {
+                // Dereference the pokemon's nature
+                let nature = natures[pokemon.nature];
+            }
+
+            // Increment the current pokemon
+            i++;
         }
     }
 });
