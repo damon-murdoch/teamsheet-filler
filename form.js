@@ -9,6 +9,27 @@ function getAge(dateString) {
     return age;
 }
 
+function capitaliseEach(str) {
+    
+    // Split the string on spaces / dashes
+    let spl = str.replaceAll('-',' ').split(' ');
+
+    // Iterate over items in split
+    for(let i=0; i<spl.length; i++)
+    {
+        // Get the lowercase element
+        let lower = spl[i].toLowerCase();
+
+        // Convert the first character to upper case
+        lower = lower[0].toUpperCase() + lower.substr(1);
+
+        // Replace the array element with the new string
+        spl[i] = lower;
+    }
+
+    return spl.join(' ');
+}
+
 // Code that runs when the page loads
 $(document).ready(function(){
 
@@ -317,6 +338,10 @@ $(document).ready(function(){
         document.teamlist = document.teamlist.replaceAll('%0A','\n');
         document.teamlist = document.teamlist.replaceAll('%2F','/');
         document.teamlist = document.teamlist.replaceAll('%3A',':');
+        document.teamlist = document.teamlist.replaceAll('%28','(');
+        document.teamlist = document.teamlist.replaceAll('%29',')');
+        document.teamlist = document.teamlist.replaceAll('%5B','[');
+        document.teamlist = document.teamlist.replaceAll('%5D',']');
 
         // Trim leading and trailing whitespace
         document.teamlist = document.teamlist.trim();
@@ -352,7 +377,7 @@ $(document).ready(function(){
             }
 
             // Add the species to the element on the page
-            document.getElementById('species' + i).innerHTML = pokemon.species;
+            document.getElementById('species' + i).innerHTML = capitaliseEach(pokemon.species);
 
             // Add the level to the element on the page
             let level = 100;
@@ -361,7 +386,7 @@ $(document).ready(function(){
             if ('Level' in pokemon.params)
             {
                 // Update the level with the specified level
-                level = pokemon.params.Level;
+                level = parseInt(pokemon.params.Level);
             }
 
             // Set the level on the page
@@ -371,14 +396,14 @@ $(document).ready(function(){
             if ('ability' in pokemon)
             {
                 // Add the ability to the element on the page
-                document.getElementById('ability' + i).innerHTML = pokemon.ability;
+                document.getElementById('ability' + i).innerHTML = capitaliseEach(pokemon.ability);
             }
 
             // If the ability is specified
             if ('item' in pokemon)
             {
                 // Add the ability to the element on the page
-                document.getElementById('item' + i).innerHTML = pokemon.item;
+                document.getElementById('item' + i).innerHTML = capitaliseEach(pokemon.item);
             }
 
             // If the moves are specified
@@ -390,7 +415,7 @@ $(document).ready(function(){
                 for(let move in pokemon.moves)
                 {
                     //  Add the move to the form
-                    document.getElementById('move' + j + i).innerHTML = pokemon.moves[move];
+                    document.getElementById('move' + j + i).innerHTML = capitaliseEach(pokemon.moves[move]);
 
                     // Increment the current move
                     j++;
@@ -403,6 +428,51 @@ $(document).ready(function(){
             {
                 // Dereference the pokemon's nature
                 let nature = natures[pokemon.nature];
+
+                let species_id = pokemon.species.toLowerCase().replaceAll('-','').replaceAll(' ','')
+
+                // Dereference the pokemon's stats
+                let species = pokedex[species_id];
+
+                // Nature set modifiers
+                // 1x modifier by default
+                let set_nature = {
+                    'atk': 1,
+                    'def': 1,
+                    'spa': 1,
+                    'spd': 1,
+                    'spe': 1
+                };
+
+                // Assign the positive nature modifier
+                set_nature[nature.pos] = 1.1;
+                
+                // Assign the negative nature modifier
+                set_nature[nature.neg] = 0.9;
+
+                // Calculate the 'hp' stat and add it to the form
+                let hps = hp(species.baseStats.hp,pokemon.ivs.hp,pokemon.evs.hp,level);
+                document.getElementById('hp' + i).innerHTML = hps;
+
+                // Calculate the 'atk' stat and add it to the form
+                let atk = stat(species.baseStats.atk,pokemon.ivs.atk,pokemon.evs.atk,level,set_nature.atk);
+                document.getElementById('atk' + i).innerHTML = atk;
+                
+                // Calculate the 'def' stat and add it to the form
+                let def = stat(species.baseStats.def,pokemon.ivs.def,pokemon.evs.def,level,set_nature.def);
+                document.getElementById('def' + i).innerHTML = def;
+                
+                // Calculate the 'spa' stat and add it to the form
+                let spa = stat(species.baseStats.spa,pokemon.ivs.spa,pokemon.evs.spa,level,set_nature.spa);
+                document.getElementById('spa' + i).innerHTML = spa;
+                
+                // Calculate the 'spd' stat and add it to the form
+                let spd = stat(species.baseStats.spd,pokemon.ivs.spd,pokemon.evs.spd,level,set_nature.spd);
+                document.getElementById('spd' + i).innerHTML = spd;
+                
+                // Calculate the 'spe' stat and add it to the form
+                let spe = stat(species.baseStats.spe,pokemon.ivs.spe,pokemon.evs.spe,level,set_nature.spe);
+                document.getElementById('spe' + i).innerHTML = spe;
             }
 
             // Increment the current pokemon

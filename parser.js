@@ -14,14 +14,14 @@
 // Pokemon Stats Object
 class Stats {
 
-    constructor()
+    constructor(n=0)
     {
-        this.hp = 0;
-        this.atk = 0;
-        this.def = 0;
-        this.spa = 0;
-        this.spd = 0;
-        this.spe = 0;
+        this.hp = n;
+        this.atk = n;
+        this.def = n;
+        this.spa = n;
+        this.spd = n;
+        this.spe = n;
     }
 
     toString()
@@ -120,10 +120,10 @@ class Pokemon {
         this.params = {};
         
         // IVs - Stats object
-        this.ivs = new Stats();
+        this.ivs = new Stats(31);
         
         // EVs - Stats object
-        this.evs = new Stats();
+        this.evs = new Stats(0);
         
         // Nature - String
         this.nature = null;
