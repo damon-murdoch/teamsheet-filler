@@ -359,21 +359,38 @@ $(document).ready(function(){
             let pokemon = new Pokemon();
 
             // Parse the pokemon object into the string
-            pokemon.parse(set);
+            // Automatically convert to lower case for uniformity
+            pokemon.parse(set.toLowerCase());
 
             // If the pokemon species includes '-gmax'
-            if (pokemon.species.includes('-Gmax'))
+            if (pokemon.species.includes('-gmax'))
             {
                 // Set the gmax value in the teamsheet to yes
                 document.getElementById('gmax' + i).innerHTML = 'Yes';
 
                 // Remove the gmax tag from the pokemon species title
-                pokemon.species = pokemon.species.toLowerCase().replace('-gmax','');
+                pokemon.species = pokemon.species.replace('-gmax','');
             }
             else 
             {
                 // Set the gmax value in the teamsheet to no
                 document.getElementById('gmax' + i).innerHTML = 'No';
+            }
+
+            // If the pokemon is a mega evolution
+            if (pokemon.species.includes('-mega'))
+            {
+                // Split the string on the '-' element, 
+                // and take the first element (should be base species)
+                pokemon.species = pokemon.species.split('-')[0].trim();
+            }
+
+            // If the pokemon is a primal evolution
+            if (pokemon.species.includes('-primal'))
+            {
+                // Split the string on the '-' element, 
+                // and take the first element (should be base species)
+                pokemon.species = pokemon.species.split('-')[0].trim();
             }
 
             // Add the species to the element on the page
@@ -424,12 +441,16 @@ $(document).ready(function(){
 
             // Calculate the stats of the pokemon, using 
             // ivs, evs, nature, level required
-            if ('evs' in pokemon && 'ivs' in pokemon && 'nature' in pokemon && pokemon.nature in natures)
+            if ('evs' in pokemon && 
+                'ivs' in pokemon && 
+                'nature' in pokemon && 
+                pokemon.nature in natures)
             {
                 // Dereference the pokemon's nature
                 let nature = natures[pokemon.nature];
 
-                let species_id = pokemon.species.toLowerCase().replaceAll('-','').replaceAll(' ','')
+                // This is how the pokemon name should appear in the pokedex array
+                let species_id = pokemon.species.replaceAll('-','').replaceAll(' ','')
 
                 // Dereference the pokemon's stats
                 let species = pokedex[species_id];
