@@ -212,7 +212,8 @@ class Pokemon {
     parse(set)
     {
         // Remove the \r characters from the string
-        set = set.replace('\r','');
+        // and confirm all characters to lower case
+        set = set.replace('\r','').toLowerCase();
 
         // Split the set on the newlines
         let lines = set.split('\n');
@@ -225,22 +226,22 @@ class Pokemon {
             if (line.includes('@') || line.includes('('))
             {
                 // If the line shows male gender
-                if (line.includes('(M)'))
+                if (line.includes('(m)'))
                 {
                     // Set the pokemon's gender to M
-                    this.gender = 'M';
+                    this.gender = 'm';
 
                     // Remove the gender from the string
-                    line = line.replace('(M)','');
+                    line = line.replace('(m)','');
                 }
                 // If the line shows a female gender
-                else if (line.includes('(F)'))
+                else if (line.includes('(f)'))
                 {
                     // Set the pokemon's gender to F
-                    this.gender = 'F';
+                    this.gender = 'f';
 
                     // Remove the gender from the string
-                    line = line.replace('(F)','');
+                    line = line.replace('(f)','');
                 }
 
                 // Define empty string
@@ -268,16 +269,16 @@ class Pokemon {
 
                 // If there is a nickname 
                 // in the string
-                if (line.includes('('))
+                if (namesection.includes('('))
                 {
                     // Nickname (Species)
 
                     // Remove the open and closing bracket from the string
-                    this.line = line.replace('(','').replace(')','');
+                    namesection = namesection.replace(')','');
 
                     // Split the string on the spaces
                     // Remove extra leading and trailing spaces
-                    let _spl = line.trim().split(' ');
+                    let _spl = namesection.trim().split('(');
 
                     // Assign the pokemon species
                     this.species = _spl[1].trim();
@@ -310,17 +311,17 @@ class Pokemon {
                 // Switch on the key value
                 switch(k)
                 {
-                    case 'Ability':
+                    case 'ability':
                         // Assign the abilit
                         this.ability = v;
                     break;
-                    case 'EVs':
+                    case 'evs':
                         // Parse the EVs into the EVs
                         this.evs.parse(v);
                     break;
 
                     // IVs specifier
-                    case 'IVs':
+                    case 'ivs':
                         // Parse the IVs into the IVs 
                         this.ivs.parse(v);
                     break;
