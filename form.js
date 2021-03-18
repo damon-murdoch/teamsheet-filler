@@ -445,6 +445,16 @@ $(document).ready(function(){
             // Species name string, to add to the output form
             let species_str = capitaliseEach(pokemon.species).trim();
 
+            // Special Cases
+            switch(species_str)
+            {
+                // Single strike urshifu is just urshifu on PS!
+                case 'Urshifu': 
+                    // Update with full extension, is needed for teamsheets
+                    species_str = 'Urshifu Single Strike';
+                break;
+            }
+
             // Switch on gender (m,f,n)
             switch(pokemon.gender)
             {
