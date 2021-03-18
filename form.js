@@ -385,8 +385,8 @@ $(document).ready(function(){
         document.teamlist = document.teamlist.replaceAll('%0A','\n');
         document.teamlist = document.teamlist.replaceAll('%2F','/');
         document.teamlist = document.teamlist.replaceAll('%3A',':');
-        document.teamlist = document.teamlist.replaceAll('%28','');
-        document.teamlist = document.teamlist.replaceAll('%29','');
+        document.teamlist = document.teamlist.replaceAll('%28','(');
+        document.teamlist = document.teamlist.replaceAll('%29',')');
         document.teamlist = document.teamlist.replaceAll('%5B','');
         document.teamlist = document.teamlist.replaceAll('%5D','');
 
@@ -408,6 +408,8 @@ $(document).ready(function(){
             // Parse the pokemon object into the string
             // Automatically convert to lower case for uniformity
             pokemon.parse(set.toLowerCase());
+
+            console.log(pokemon);
 
             // If the pokemon species includes '-gmax'
             if (pokemon.species.includes('-gmax'))
@@ -440,8 +442,28 @@ $(document).ready(function(){
                 pokemon.species = pokemon.species.split('-')[0].trim();
             }
 
+            // Species name string, to add to the output form
+            let species_str = capitaliseEach(pokemon.species).trim();
+
+            // Switch on gender (m,f,n)
+            switch(pokemon.gender)
+            {
+                // Male gender
+                case 'm':
+                    // Add (Male) to species text
+                    species_str += " (Male)";
+                break;
+                // Female gender
+                case 'f':
+                    // Add (Female) to species text
+                    species_str += " (Female)";
+                break;
+
+                // Add nothing to species text
+            }
+
             // Add the species to the element on the page
-            document.getElementById('species' + i).innerHTML = capitaliseEach(pokemon.species);
+            document.getElementById('species' + i).innerHTML = species_str;
 
             // Add the level to the element on the page
             let level = 100;
