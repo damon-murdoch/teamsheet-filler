@@ -450,7 +450,7 @@ $(document).ready(function(){
             if ('level' in pokemon.params)
             {
                 // Update the level with the specified level
-                level = parseInt(pokemon.params.Level);
+                level = parseInt(pokemon.params.level);
             }
 
             // Set the level on the page
@@ -521,6 +521,8 @@ $(document).ready(function(){
                     
                     // Assign the negative nature modifier
                     set_nature[nature.neg] = 0.9;
+
+                    console.log(species.baseStats.hp,pokemon.ivs.hp,pokemon.evs.hp,level);
 
                     // Calculate the 'hp' stat and add it to the form
                     let hps = hp(species.baseStats.hp,pokemon.ivs.hp,pokemon.evs.hp,level);
