@@ -103,7 +103,7 @@ $(document).ready(function(){
                             localStorage.setItem(k,v);
 
                             // Modify the first name page element
-                            document.getElementById('first-name').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('first-name').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
@@ -133,7 +133,7 @@ $(document).ready(function(){
                             localStorage.setItem(k,v);
 
                             // Modify the last name page element
-                            document.getElementById('family-name').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('family-name').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
@@ -163,7 +163,7 @@ $(document).ready(function(){
                             localStorage.setItem(k,v);
 
                             // Modify the player id page element
-                            document.getElementById('player-id').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('player-id').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
@@ -193,7 +193,7 @@ $(document).ready(function(){
                             localStorage.setItem(k,v);
 
                             // Modify the date of birth page element
-                            document.getElementById('date-of-birth').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('date-of-birth').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
 
                             // Dereference the age
                             let age = getAge(v);
@@ -221,13 +221,13 @@ $(document).ready(function(){
                             if ('dob' in localStorage)
                             {
                                 // Dereference the first name element from the local storage
-                                document.getElementById('date-of-birth').innerHTML = localStorage['dob'].padEnd(20,'_').replace('+',' ');
+                                document.getElementById('date-of-birth').innerHTML = localStorage['dob'].padEnd(20,'_').replaceAll('+',' ');
 
                             } // No first name cookies
                             else 
                             {
                                 // Modify the last name page element
-                                document.getElementById('date-of-birth').innerHTML = ''.padEnd(20,'_').replace('+',' ');
+                                document.getElementById('date-of-birth').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                             }
 
                             // Set user's age in the table
@@ -265,12 +265,12 @@ $(document).ready(function(){
                             // localStorage.setItem(k,v);
 
                             // Modify the event date page element
-                            document.getElementById('event-dates').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('event-dates').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
                             // Modify the event date page element
-                            document.getElementById('event-dates').innerHTML = ''.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('event-dates').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                         }
                         
                     break;
@@ -285,12 +285,12 @@ $(document).ready(function(){
                             // localStorage.setItem(k,v);
 
                             // Modify the event name page element
-                            document.getElementById('event-name').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('event-name').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
                             // Modify the last name page element
-                            document.getElementById('event-name').innerHTML = ''.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('event-name').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                         }
 
                     break;
@@ -305,7 +305,7 @@ $(document).ready(function(){
                             localStorage.setItem(k,v);
 
                             // Modify the switch profile page element
-                            document.getElementById('switch-profile').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('switch-profile').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
@@ -313,13 +313,13 @@ $(document).ready(function(){
                             if ('swprofile' in localStorage)
                             {
                                 // Dereference the first name element from the local storage
-                                document.getElementById('switch-profile').innerHTML = localStorage['swprofile'].padEnd(20,'_').replace('+',' ');
+                                document.getElementById('switch-profile').innerHTML = localStorage['swprofile'].padEnd(20,'_').replaceAll('+',' ');
 
                             } // No first name cookies
                             else 
                             {
                                 // Modify the last name page element
-                                document.getElementById('switch-profile').innerHTML = ''.padEnd(20,'_').replace('+',' ');
+                                document.getElementById('switch-profile').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                             }
                         }
 
@@ -335,7 +335,7 @@ $(document).ready(function(){
                             localStorage.setItem(k,v);
 
                             // Modify the battle team name page element
-                            document.getElementById('battle-team-name').innerHTML = v.padEnd(20,'_').replace('+',' ');
+                            document.getElementById('battle-team-name').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
@@ -343,13 +343,13 @@ $(document).ready(function(){
                             if ('teamname' in localStorage)
                             {
                                 // Dereference the first name element from the local storage
-                                document.getElementById('battle-team-name').innerHTML = localStorage['teamname'].padEnd(20,'_').replace('+',' ');
+                                document.getElementById('battle-team-name').innerHTML = localStorage['teamname'].padEnd(20,'_').replaceAll('+',' ');
 
                             } // No first name cookies
                             else 
                             {
                                 // Modify the last name page element
-                                document.getElementById('battle-team-name').innerHTML = ''.padEnd(20,'_').replace('+',' ');
+                                document.getElementById('battle-team-name').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                             }
                         }
                     break;
@@ -385,10 +385,10 @@ $(document).ready(function(){
         document.teamlist = document.teamlist.replaceAll('%0A','\n');
         document.teamlist = document.teamlist.replaceAll('%2F','/');
         document.teamlist = document.teamlist.replaceAll('%3A',':');
-        document.teamlist = document.teamlist.replaceAll('%28','(');
-        document.teamlist = document.teamlist.replaceAll('%29',')');
-        document.teamlist = document.teamlist.replaceAll('%5B','[');
-        document.teamlist = document.teamlist.replaceAll('%5D',']');
+        document.teamlist = document.teamlist.replaceAll('%28','');
+        document.teamlist = document.teamlist.replaceAll('%29','');
+        document.teamlist = document.teamlist.replaceAll('%5B','');
+        document.teamlist = document.teamlist.replaceAll('%5D','');
 
         // Trim leading and trailing whitespace
         document.teamlist = document.teamlist.trim();
@@ -447,7 +447,7 @@ $(document).ready(function(){
             let level = 100;
 
             // If the level is specified in the species
-            if ('Level' in pokemon.params)
+            if ('level' in pokemon.params)
             {
                 // Update the level with the specified level
                 level = parseInt(pokemon.params.Level);
