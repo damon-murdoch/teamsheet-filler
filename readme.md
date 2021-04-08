@@ -11,4 +11,5 @@ Showdown! Formatted paste which it converts to the teamsheet format.
 ### Web Link
 The application can be viewed live on the link [here](https://damon-murdoch.github.io/teamsheet-filler/).
 
-#### https://damon-murdoch.github.io/teamsheet-filler/
+#### Link
+https://damon-murdoch.github.io/teamsheet-filler/
