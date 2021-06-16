@@ -69,6 +69,9 @@ $(document).ready(function(){
     let setdefault = false;
     let usedefault = false;
 
+    // Open Teamsheet Mode - Off by Default
+    let opents = false;
+
     // If there are any arguments in the path
     if (href.includes('?'))
     {
@@ -82,6 +85,12 @@ $(document).ready(function(){
         if (href.includes('usedefault=on'))
         {
             usedefault = true;
+        }
+
+        // If the open teamsheet checkbox is clicked
+        if (href.includes('opents=on'))
+        {
+            opents = true;
         }
 
         // Split the path on the arguments
@@ -548,7 +557,9 @@ $(document).ready(function(){
 
             // Calculate the stats of the pokemon, using 
             // ivs, evs, nature, level required
-            if ('evs' in pokemon && 
+            if (
+                !opents && 
+                'evs' in pokemon && 
                 'ivs' in pokemon && 
                 'nature' in pokemon && 
                 pokemon.nature in natures)
@@ -581,8 +592,6 @@ $(document).ready(function(){
                     
                     // Assign the negative nature modifier
                     set_nature[nature.neg] = 0.9;
-
-                    console.log(species.baseStats.hp,pokemon.ivs.hp,pokemon.evs.hp,level);
 
                     // Calculate the 'hp' stat and add it to the form
                     let hps = hp(species.baseStats.hp,pokemon.ivs.hp,pokemon.evs.hp,level);
