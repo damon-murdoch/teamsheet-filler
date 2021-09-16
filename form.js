@@ -66,27 +66,12 @@ $(document).ready(function(){
     // a paste is provided
     document.teamlist = null;
 
-    let setdefault = false;
-    let usedefault = false;
-
     // Open Teamsheet Mode - Off by Default
     let opents = false;
 
     // If there are any arguments in the path
     if (href.includes('?'))
     {
-        // If set default checkbox is clicked
-        if (href.includes('setdefault=on'))
-        {
-            setdefault = true;
-        }
-
-        // If use default checkbox is clicked
-        if (href.includes('usedefault=on'))
-        {
-            usedefault = true;
-        }
-
         // If the open teamsheet checkbox is clicked
         if (href.includes('opents=on'))
         {
@@ -123,30 +108,13 @@ $(document).ready(function(){
                         // If value is not blank
                         if (v)
                         {
-                            // If setdefault is checked
-                            if(setdefault === true)
-                            {
-                                // Add the first name to the document cookies
-                                localStorage.setItem(k,v);
-                            }
-
                             // Modify the first name page element
                             document.getElementById('first-name').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
-                            // If first name in localStorage
-                            if ((usedefault === true) && ('fname' in localStorage))
-                            {
-                                // Dereference the first name element from the local storage
-                                document.getElementById('first-name').innerHTML = localStorage['fname'].padEnd(20,'_');
-
-                            } // No first name cookies
-                            else 
-                            {
-                                // Modify the first name page element
-                                document.getElementById('first-name').innerHTML = ''.padEnd(20,'_');
-                            }
+                            // Modify the first name page element
+                            document.getElementById('first-name').innerHTML = ''.padEnd(20,'_');
                         }
 
                     break;
@@ -157,29 +125,13 @@ $(document).ready(function(){
                         // If value is not blank
                         if (v)
                         {
-                            if(setdefault === true)
-                            {
-                                // Add the last name to the document cookies
-                                localStorage.setItem(k,v);
-                            }
-
                             // Modify the last name page element
                             document.getElementById('family-name').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
-                            // If last name in localStorage
-                            if ((usedefault === true) && ('lname' in localStorage))
-                            {
-                                // Dereference the last name element from the local storage
-                                document.getElementById('family-name').innerHTML = localStorage['lname'].padEnd(20,'_');
-
-                            } // No last name cookies
-                            else 
-                            {
-                                // Modify the last name page element
-                                document.getElementById('family-name').innerHTML = ''.padEnd(20,'_');
-                            }
+                            // Modify the last name page element
+                            document.getElementById('family-name').innerHTML = ''.padEnd(20,'_');
                         }
 
                     break;
@@ -190,29 +142,13 @@ $(document).ready(function(){
                         // If value is not blank
                         if (v)
                         {
-                            if(setdefault === true)
-                            {
-                                // Add the player id to the document cookies
-                                localStorage.setItem(k,v);
-                            }
-
                             // Modify the player id page element
                             document.getElementById('player-id').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
-                            // If player id in localStorage
-                            if ((usedefault === true) && ('playerid' in localStorage))
-                            {
-                                // Dereference the player id element from the local storage
-                                document.getElementById('player-id').innerHTML = localStorage['playerid'].padEnd(20,'_');
-
-                            } // No player id cookies
-                            else 
-                            {
-                                // Modify the player id page element
-                                document.getElementById('player-id').innerHTML = ''.padEnd(20,'_');
-                            }
+                            // Modify the player id page element
+                            document.getElementById('player-id').innerHTML = ''.padEnd(20,'_');
                         }
 
                     break;
@@ -223,12 +159,6 @@ $(document).ready(function(){
                         // If value is not blank
                         if(v)
                         {
-                            if(setdefault === true)
-                            {
-                                // Add the date of birth to the document cookies
-                                localStorage.setItem(k,v);
-                            }
-
                             // Modify the date of birth page element
                             document.getElementById('date-of-birth').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
 
@@ -254,40 +184,8 @@ $(document).ready(function(){
                         }
                         else
                         {
-                            // If first name in localStorage
-                            if ((usedefault === true) && ('dob' in localStorage))
-                            {
-                                // Dereference the first name element from the local storage
-                                document.getElementById('date-of-birth').innerHTML = localStorage['dob'].padEnd(20,'_').replaceAll('+',' ');
-
-                                // Set user's age in the table
-
-                                // Dereference the age
-                                let age = getAge(localStorage['dob']);
-
-                                // Juniors division
-                                if (age <= 12)
-                                {
-                                    // Set the juniors division check box to checked
-                                    document.getElementById('check-junior').checked = true;
-                                } // Seniors Division
-                                else if (age <= 16) 
-                                {
-                                    // Set the seniors division check box to checked
-                                    document.getElementById('check-senior').checked = true;
-                                } // Masters Division
-                                else 
-                                {
-                                    // Set the masters division check box to checked
-                                    document.getElementById('check-master').checked = true;
-                                }
-
-                            } // No first name cookies
-                            else 
-                            {
-                                // Modify the last name page element
-                                document.getElementById('date-of-birth').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
-                            }
+                            // Modify the last name page element
+                            document.getElementById('date-of-birth').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                         }
 
                     break;
@@ -332,29 +230,13 @@ $(document).ready(function(){
                         // If value is not blank
                         if(v)
                         {
-                            if(setdefault === true)
-                            {
-                                // Add the switch profile to the document cookies
-                                localStorage.setItem(k,v);
-                            }
-
                             // Modify the switch profile page element
                             document.getElementById('switch-profile').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
-                            // If first name in localStorage
-                            if (usedefault === true && ('swprofile' in localStorage))
-                            {
-                                // Dereference the first name element from the local storage
-                                document.getElementById('switch-profile').innerHTML = localStorage['swprofile'].padEnd(20,'_').replaceAll('+',' ');
-
-                            } // No first name cookies
-                            else 
-                            {
-                                // Modify the last name page element
-                                document.getElementById('switch-profile').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
-                            }
+                            // Modify the last name page element
+                            document.getElementById('switch-profile').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                         }
 
                     break;
@@ -365,29 +247,13 @@ $(document).ready(function(){
                         // If value is not blank
                         if(v)
                         {
-                            if(setdefault === true)
-                            {
-                                // Add the team name to the document cookies
-                                localStorage.setItem(k,v);
-                            }
-
                             // Modify the battle team name page element
                             document.getElementById('battle-team-name').innerHTML = v.padEnd(20,'_').replaceAll('+',' ');
                         }
                         else
                         {
-                            // If first name in localStorage
-                            if (usedefault === true && ('teamname' in localStorage))
-                            {
-                                // Dereference the first name element from the local storage
-                                document.getElementById('battle-team-name').innerHTML = localStorage['teamname'].padEnd(20,'_').replaceAll('+',' ');
-
-                            } // No first name cookies
-                            else 
-                            {
-                                // Modify the last name page element
-                                document.getElementById('battle-team-name').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
-                            }
+                            // Modify the last name page element
+                            document.getElementById('battle-team-name').innerHTML = ''.padEnd(20,'_').replaceAll('+',' ');
                         }
                     break;
 
