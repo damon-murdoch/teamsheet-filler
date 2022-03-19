@@ -2,7 +2,8 @@
 // Given a string containing a user's date of birth,
 // converts the string to an integer containing
 // the user's age based on the current date and time.
-function getAge(dateString) {
+function getAge(dateString) 
+{
 
     // Get the current date
     var today = new Date();
@@ -33,7 +34,8 @@ function getAge(dateString) {
 // capital letters from the string and then
 // converts the first letter of every word
 // to a capital letter.
-function capitaliseEach(str) {
+function capitaliseEach(str) 
+{
     
     // Split the string on spaces / dashes
     let spl = str.replaceAll('-',' ').split(' ');
@@ -44,15 +46,61 @@ function capitaliseEach(str) {
         // Get the lowercase element
         let lower = spl[i].toLowerCase();
 
-        // Convert the first character to upper case
-        lower = lower[0].toUpperCase() + lower.substr(1);
+        // Lower is not null
+        if (lower)
+        {
+            // Convert the first character to upper case
+            lower = lower[0].toUpperCase() + lower.substr(1);
 
-        // Replace the array element with the new string
-        spl[i] = lower;
+            // Replace the array element with the new string
+            spl[i] = lower;
+        }
     }
 
     // Return the string array, joining each element using a space.
     return spl.join(' ');
+}
+
+/*
+	Description: 
+		Maths function for calculating the real value of a Pokemon's
+		individual stat	for all fields excluding hit points, which is calculated
+		by the getHP() function.
+	
+	Parameters:	
+		B: Species Base Stat
+		I: Stat Individual Value (IV)
+		E: Stat Effort Value (EV)
+		L: Pokemon Level
+		N: Pokemon Nature boost (0.9 - reducing, 1.0 - neutral, 1.1 - boosting)
+		
+	Notes:
+		Author: Damon Murdoch, based on Bulbapedia's conversion formula
+		Date: 21/11/2019
+*/
+function getStat(B,I,E,L,N)
+{
+	return Math.floor(Math.floor(Math.floor(Math.floor(Math.floor(2 * B + I + Math.floor(E / 4)) * L) / 100) + 5) * N);
+}
+
+/*
+	Description: 
+		Maths function for calculating the real value of a Pokemon's hit point
+		(hp) stat. Other fields are calculated using the getStat() function.
+		
+	Parameters:	
+		B: Species Base Stat
+		I: Stat Individual Value (IV)
+		E: Stat Effort Value (EV)
+		L: Pokemon Level
+		
+	Notes:
+		Author: Damon Murdoch, based on Bulbapedia's conversion formula
+		Date: 21/11/2019
+*/
+function getHP(B,I,E,L)
+{
+	return Math.floor(Math.floor(Math.floor(Math.floor(2 * B + I + Math.floor(E / 4)) * L) / 100) + L + 10);
 }
 
 // Code that runs when the page loads
@@ -306,13 +354,11 @@ $(document).ready(function(){
         for(set of team)
         {
             // Create a new pokemon object
-            let pokemon = new Pokemon();
+            // let pokemon = new Pokemon();
 
             // Parse the pokemon object into the string
             // Automatically convert to lower case for uniformity
-            pokemon.parse(set.toLowerCase());
-
-            console.log(pokemon);
+            let pokemon = parseSets(set.toLowerCase())[0];
 
             // If the pokemon species includes '-gmax'
             if (pokemon.species.includes('-gmax'))
@@ -382,10 +428,10 @@ $(document).ready(function(){
             let level = 100;
 
             // If the level is specified in the species
-            if ('level' in pokemon.params)
+            if ('level' in pokemon.other)
             {
                 // Update the level with the specified level
-                level = parseInt(pokemon.params.level);
+                level = parseInt(pokemon.other.level);
             }
 
             // Set the level on the page
@@ -460,27 +506,27 @@ $(document).ready(function(){
                     set_nature[nature.neg] = 0.9;
 
                     // Calculate the 'hp' stat and add it to the form
-                    let hps = hp(species.baseStats.hp,pokemon.ivs.hp,pokemon.evs.hp,level);
+                    let hps = getHP(species.baseStats.hp,pokemon.ivs.hp,pokemon.evs.hp,level);
                     document.getElementById('hp' + i).innerHTML = hps;
 
                     // Calculate the 'atk' stat and add it to the form
-                    let atk = stat(species.baseStats.atk,pokemon.ivs.atk,pokemon.evs.atk,level,set_nature.atk);
+                    let atk = getStat(species.baseStats.atk,pokemon.ivs.atk,pokemon.evs.atk,level,set_nature.atk);
                     document.getElementById('atk' + i).innerHTML = atk;
                     
                     // Calculate the 'def' stat and add it to the form
-                    let def = stat(species.baseStats.def,pokemon.ivs.def,pokemon.evs.def,level,set_nature.def);
+                    let def = getStat(species.baseStats.def,pokemon.ivs.def,pokemon.evs.def,level,set_nature.def);
                     document.getElementById('def' + i).innerHTML = def;
                     
                     // Calculate the 'spa' stat and add it to the form
-                    let spa = stat(species.baseStats.spa,pokemon.ivs.spa,pokemon.evs.spa,level,set_nature.spa);
+                    let spa = getStat(species.baseStats.spa,pokemon.ivs.spa,pokemon.evs.spa,level,set_nature.spa);
                     document.getElementById('spa' + i).innerHTML = spa;
                     
                     // Calculate the 'spd' stat and add it to the form
-                    let spd = stat(species.baseStats.spd,pokemon.ivs.spd,pokemon.evs.spd,level,set_nature.spd);
+                    let spd = getStat(species.baseStats.spd,pokemon.ivs.spd,pokemon.evs.spd,level,set_nature.spd);
                     document.getElementById('spd' + i).innerHTML = spd;
                     
                     // Calculate the 'spe' stat and add it to the form
-                    let spe = stat(species.baseStats.spe,pokemon.ivs.spe,pokemon.evs.spe,level,set_nature.spe);
+                    let spe = getStat(species.baseStats.spe,pokemon.ivs.spe,pokemon.evs.spe,level,set_nature.spe);
                     document.getElementById('spe' + i).innerHTML = spe;
                 }
             }
